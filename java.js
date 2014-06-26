@@ -1071,17 +1071,17 @@ var ProjectilesSpeed = 10;
 var ProjectilesSize = 1;
 
 var boxes = [];
-var boxesNum = 4;
+var boxesNum = 0;//4
 var boxesSpeed = 0.8;
 var boxesSize = 80;
 
 var boxes2 = [];
-var boxesNum2 = 14;
+var boxesNum2 = 0;//14
 var boxesSpeed2 = 0.4;
 var boxesSize2 = 45;
 
 var boxes3 = [];
-var boxesNum3 = 30;
+var boxesNum3 = 0 ;//30
 var boxesSpeed3 = 0.2;
 var boxesSize3 = 15;
 
