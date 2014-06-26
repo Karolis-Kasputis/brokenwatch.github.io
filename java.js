@@ -151,7 +151,7 @@ function background() {
 	c.clearRect(0, 0, w, h);
 	c.rect(0, 0, w, h);
      var grd = c.createRadialGradient(w+500,-500, 1, w+500, -500, 1800);
-      grd.addColorStop(0, '#3f185f');
+      grd.addColorStop(0, '#9C2797');
       grd.addColorStop(1, 'black');
       c.fillStyle = grd;
       c.fill();
@@ -160,17 +160,38 @@ function background() {
 };
 function score() {
 c.strokeStyle = '#8B1A89';
-c.font = 'italic bold 40px Calibri';
+c.font = 'italic bold 25px Calibri';
+c.fillStyle = 'white';
+c.textAlign = 'left';
+c.fillText('BlueLife: ', w- 200, 50);
+c.fillText('PurpleTime: ', w- 200, 100);
+c.fillText('Orange#: ', w- 200, 150);
+c.lineWidth = '1';
+c.strokeText('BlueLife: ', w- 200, 50);
+c.lineWidth = '1';
+c.strokeText('PurpleTime: ', w- 200, 100);
+c.lineWidth = '1';
+c.strokeText('Orange#: ', w- 200, 150);
+
+c.strokeStyle = '#8B1A89';
+c.font = 'italic bold 25px Calibri';
 c.fillStyle = 'white';
 c.textAlign = 'right';
-c.fillText('Keyboard Score: '+sckeyboard, w- 20, 50);
-c.lineWidth = '2';
-c.strokeText('Keyboard Score: '+sckeyboard, w- 20, 50);
-c.fillText('Mouse Score: '+scmouse, w- 20, 100);
-c.lineWidth = '2';
-c.strokeText('Mouse Score: '+scmouse, w- 20, 100);
+c.fillText(enemiesLife, w- 20, 50);
+c.fillText(enemykL.toFixed(2), w- 20, 100);
+c.fillText(ProjectilesNum, w- 20, 150);
+c.lineWidth = '1';
+c.strokeText(enemiesLife, w- 20, 50);
+c.lineWidth = '1';
+c.strokeText(enemykL.toFixed(2), w- 20, 100);
+c.lineWidth = '1';
+c.strokeText(ProjectilesNum, w- 20, 150);
 
-		timer = timer + 0.01;
+	
+
+
+
+	timer = timer + 0.01;
 
 
 c.fillStyle = 'white';
@@ -330,13 +351,13 @@ function Hero(x, y, speed){
 	
 	this.gameover= function(){
 	if (this.life === 0 || timer < 0.1 ) {
-	 c.fillStyle = 'red';
+	 c.strokeStyle = '#8B1A89';
+	 c.fillStyle = 'white';
 	 c.textAlign = 'center';
 	 c.font = 'italic bold 100px Calibri';
-	 c.fillText( 'GAME OVER NOOB', w/2, h/2);
+	 c.fillText( 'GAME OVER ', w/2, h/2);
 	 c.lineWidth = 5;
-	 c.strokeStyle = 'black';
-	 c.strokeText('GAME OVER NOOB', w/2, h/2);
+	 c.strokeText('GAME OVER ', w/2, h/2);
 	 this.dx = 0; 
 	 this.dy = 0;
 	}
@@ -569,6 +590,7 @@ this.boom = function (){
 					this.enemyCol();
 					if (this.lifeLeft > 0){
 						this.stroke();}
+					else if (this.lifeLeft === 0 && this.btimer === 0){hero.life +=5;this.btimer = 30;}
 
 					this.move();
 					this.detect();
@@ -577,25 +599,26 @@ this.boom = function (){
 						xonclick = hero.x; //stop moving while shootin
 						yonclick = hero.y;
 						this.lifeLeft -= 1;
-						hero.areload = 50;
+						hero.areload = 65;
 						hero.reload = 85;
 						this.rTimer = this.rTi;
 						this.bx = this.x;
 						this.by = this.y;
-						this.btimer = 30;
+						
 						
 						}
 
-					
+				 
 						
-					//if (this.areload > 0) {this.areload = (this.areload-0.01).toFixed(2);} //reloading
 					
 					if (this.damage() === true && hero.life > 0) { //if in range reduce hero health
 					hero.life -= 1;
 					}	
 				
 
-					if (this.lifeLeft === 0 && this.btimer === 1) {enemies.splice(this.ID, 1);}	
+					if (this.lifeLeft === 0 && this.btimer === 1) {
+						//hero.life +=1;
+						enemies.splice(this.ID, 1);}	
 
 				if (this.x > w + 500 || this.x < -500 || this.y > h+500 || this.y < -500) {
 				enemies.splice(this.ID,1);}
@@ -808,12 +831,12 @@ this.boom = function (){
 			this.x = null;
 			this.y = null;
 			sckeyboard += 1;
-			hero.life += 1;
+			hero.life += 5;
 			this.herokill = true;
 			
 		}
 	   if (this.herokill === false && this.life == 0 && hero.life > 0){
-	   	hero.life -= 10;
+	   	hero.life -= 5;
 	   	this.herokill = true;
 	   }
 	this.boom();
@@ -891,6 +914,9 @@ this.move = function () {
 this.launch = function () {
 		this.boom();
 		if (this.randomDestSel === false) {
+			randomEdge();
+			this.x = randomEdgeX;
+			this.y = randomEdgeY;
 			this.randomDest(); }
 			
 			
@@ -908,18 +934,20 @@ this.launch = function () {
 		this.y = null;
 		this.vx = 0;
 		this.vy = 0;
-		hero.life -= 1;
+		hero.life -= 3;
 		this.btimer = 30;
 		}
 
 
 
 		if (this.btimer === 1){
-				Projectiles.splice(Projectiles.indexOf((this),1));
+				this.btimer = 0;
+				this.randomDestSel = false
 		}
 
 		if (this.x > w + 500 || this.x < -500 || this.y > h+500 || this.y < -500) {
-				Projectiles.splice(Projectiles.indexOf((this),1));
+				this.randomDestSel = false;
+				this.btimer = 0;
 		
 		}
 		
@@ -1033,8 +1061,8 @@ var enemies = [];
 var enemiesNum = 5;
 var enemiesLife = 3;
 var enemiesSize = 50;
-var enemiesSpeed = 5;
-var enemiesRespawn = 800;
+var enemiesSpeed = 4.2;
+var enemiesRespawn = 250;
 var enResp = enemiesRespawn;
 
 var Projectiles = [];
@@ -1060,8 +1088,8 @@ var boxesSize3 = 15;
 var enemyk = [];
 var enemykNum = 1;
 var enemykR = 50;
-var enemykL = 1;
-var enemykRTI = 200;
+var enemykL = 0.9;
+var enemykRTI = 500;
 
 
 
@@ -1091,7 +1119,7 @@ var b = new box (w*Math.random(),h*Math.random(),boxesSize3,boxesSpeed3);
 
 var difficulty = function(){
 	/////////////////////WORKS WELL YO
-	enemiesLife = 1 + Math.round(timer/30);
+	enemiesLife = 2 + Math.round(timer/90);
 	if (enResp > 0) {enResp -= 1;}
 	else if (enResp === 0 && enemies.length < enemiesNum) {  //ENEMY GENERATOR
   		randomEdge();
@@ -1102,7 +1130,7 @@ var difficulty = function(){
 	
 
 	/////////////////  PROJECTILES
-	ProjectilesNum = 19+ Math.round(timer/30);
+	ProjectilesNum = 2+ Math.round(timer/3000);
 
 	for (i = 0;Projectiles.length < ProjectilesNum; i++) {
   randomEdge();
@@ -1113,7 +1141,7 @@ var difficulty = function(){
 	}
 
 //////////////////////////////////
-	enemykL = enemykL - 0.01 * Math.round(timer/10);
+	enemykL = 1- 0.05 * Math.round(timer/10);
 	for (i = 0;enemyk.length < enemykNum; i++) {
   	var b = new enemyK (50,50,enemykR,enemykL,enemykRTI);
 	enemyk.push(b);
@@ -1127,12 +1155,12 @@ var difficulty = function(){
 
 /////////////////////////////////////////////////////UPDATE SHIT
  function Update(){
-						//if (hero.life > 0 ) {	
+						if (hero.life > 0 ) {	
 difficulty();	
 	
 background();
-c.fillStyle = 'white';
-c.fillText(Projectiles[0].btimer, 200, 200);
+//c.fillStyle = 'white';
+//c.fillText(Projectiles[0].btimer, 200, 200);
 	
 
 
@@ -1166,8 +1194,8 @@ for ( i = 0; i < enemyk.length; i++) {
 
 
 		
-			//}
-					//else hero.gameover();
+			}
+					else hero.gameover();
 
 };
 
