@@ -1,4 +1,5 @@
 var c = document.getElementById('pane').getContext('2d'); 
+var bg = document.getElementById('background').getContext('2d'); 
 ///////////////////////////////////////////////////////////////BEGIN LIBRARY CODE
 function getRndColor(r,g,b,rr,gg,bb) {
     var r = r*Math.random()+rr|0,
@@ -6,7 +7,6 @@ function getRndColor(r,g,b,rr,gg,bb) {
         b = b*Math.random()+bb|0;
     return 'rgb(' + r + ',' + g + ',' + b + ')';
 };
-
 
 var w = c.canvas.width;
 var h = c.canvas.height;
@@ -28,9 +28,9 @@ var dif = 1;
 	  // tracking if mouse down
 	  var isMouseDown = false;
 	  c.canvas.onmousedown = 
-		function(evt) { isMouseDown = true; 
-						
-					} ;
+		function(evt) { 
+			isMouseDown = true;
+		};
 		c.canvas.onmouseup = 
 			function(evt) {isMouseDown = false; }; 
 			
@@ -47,74 +47,59 @@ var dif = 1;
 	  // keyboard trackerz
  
   c.canvas.onkeydown = function(evt) {
+  	evt.preventDefault();
 	if ( evt.keyCode == 65) {
      keyA = true; 
-    evt.preventDefault(); 
 	}
-	  if ( evt.keyCode == 68) {
+	if ( evt.keyCode == 68) {
      keyD = true; 
-    evt.preventDefault(); 
 	}
 	if ( evt.keyCode == 70) {
      keyF = true; 
-    evt.preventDefault(); 
 	}
 	if ( evt.keyCode == 81) {
      keyQ = true; 
-    evt.preventDefault(); 
 	}
 	if ( evt.keyCode == 87) {
      keyW = true; 
-    evt.preventDefault(); 
 	}
 	if ( evt.keyCode == 69) {
      keyE = true; 
-    evt.preventDefault(); 
 	}
 	if ( evt.keyCode == 82) {
      keyR = true; 
-    evt.preventDefault(); 
 	}
 	if ( evt.keyCode == 49) {
      key1 = true; 
-    evt.preventDefault(); 
 	}
 };
 
  c.canvas.onkeyup = function(evt) {
- if ( evt.keyCode == 65) {
-     keyA = false; 
-    evt.preventDefault(); 
+ 	evt.preventDefault(); 
+ 	if ( evt.keyCode == 65) {
+		keyA = false; 
 	}
-	  if ( evt.keyCode == 68) {
-     keyD = false; 
-    evt.preventDefault(); 
+  	if ( evt.keyCode == 68) {
+		keyD = false; 
 	}
 	if ( evt.keyCode == 70) {
-     keyF = false; 
-    evt.preventDefault(); 
+		keyF = false; 
 	}
 	if ( evt.keyCode == 81) {
-     keyQ = false; 
-    evt.preventDefault(); 
+		keyQ = false; 
 	}
 	if ( evt.keyCode == 87) {
-     keyW = false; 
-    evt.preventDefault(); 
+		keyW = false; 
 	}
 	if ( evt.keyCode == 69) {
-     keyE = false; 
-    evt.preventDefault(); 
+		keyE = false; 
 	}
 	if ( evt.keyCode == 82) {
-     keyR = false; 
-    evt.preventDefault(); 
+		keyR = false; 
 	}
 	if ( evt.keyCode == 49) {
-     key1 = false; 
-    evt.preventDefault(); 
-	}
-	  
+		key1 = false; 
+	} 
 };
 
 	  
@@ -126,81 +111,63 @@ var randomEdgeY = null;
 
 
 function randomEdge () {
-this.x = 0;
-this.y = 0;
-if (Math.random() > 0.5) {
-					this.x = Math.random()*w;
-							if (Math.random() > 0.5) {
-								this.y = 0;
-							}
-							else this.y = h;
-				}
-				else { 
-					this.y = Math.random()*h;
-							if (Math.random() > 0.5) {
-									this.x = 0;
-							}
-							else this.x = w;
-					}
-randomEdgeX = this.x;
-randomEdgeY = this.y
+	this.x = Math.random() * w;
+	this.y = Math.random() > 0.5 ? 0 : h;
+	randomEdgeX = this.x;
+	randomEdgeY = this.y
 };
+
 ////////////////////////////////////////////////////////////////////
 
 function background() {
-	c.clearRect(0, 0, w, h);
-	c.rect(0, 0, w, h);
-     var grd = c.createRadialGradient(w+500,-500, 1, w+500, -500, 1800);
-      grd.addColorStop(0, '#9C2797');
-      grd.addColorStop(1, 'black');
-      c.fillStyle = grd;
-      c.fill();
-
-
+	bg.rect(0, 0, w, h);
+	var grd = bg.createRadialGradient(w+500,-500, 1, w+500, -500, 1800);
+    grd.addColorStop(0, '#9C2797');
+	grd.addColorStop(1, 'black');
+	bg.fillStyle = grd;
+	bg.fill();
 };
+
+function clear() {
+	c.clearRect(0,0,w,h);
+}
+
 function score() {
-c.strokeStyle = '#8B1A89';
-c.font = 'italic bold 25px Calibri';
-c.fillStyle = 'white';
-c.textAlign = 'left';
-c.fillText('BlueLife: ', w- 200, 50);
-c.fillText('PurpleTime: ', w- 200, 100);
-c.fillText('Orange#: ', w- 200, 150);
-c.lineWidth = '1';
-c.strokeText('BlueLife: ', w- 200, 50);
-c.lineWidth = '1';
-c.strokeText('PurpleTime: ', w- 200, 100);
-c.lineWidth = '1';
-c.strokeText('Orange#: ', w- 200, 150);
+	c.strokeStyle = '#8B1A89';
+	c.font = 'italic bold 25px Calibri';
+	c.fillStyle = 'white';
+	c.textAlign = 'left';
+	c.fillText('BlueLife: ', w- 200, 50);
+	c.fillText('PurpleTime: ', w- 200, 100);
+	c.fillText('Orange#: ', w- 200, 150);
+	c.lineWidth = '1';
+	c.strokeText('BlueLife: ', w- 200, 50);
+	c.lineWidth = '1';
+	c.strokeText('PurpleTime: ', w- 200, 100);
+	c.lineWidth = '1';
+	c.strokeText('Orange#: ', w- 200, 150);
 
-c.strokeStyle = '#8B1A89';
-c.font = 'italic bold 25px Calibri';
-c.fillStyle = 'white';
-c.textAlign = 'right';
-c.fillText(enemiesLife, w- 20, 50);
-c.fillText(enemykL.toFixed(2), w- 20, 100);
-c.fillText(ProjectilesNum, w- 20, 150);
-c.lineWidth = '1';
-c.strokeText(enemiesLife, w- 20, 50);
-c.lineWidth = '1';
-c.strokeText(enemykL.toFixed(2), w- 20, 100);
-c.lineWidth = '1';
-c.strokeText(ProjectilesNum, w- 20, 150);
-
-	
-
-
-
+	c.strokeStyle = '#8B1A89';
+	c.font = 'italic bold 25px Calibri';
+	c.fillStyle = 'white';
+	c.textAlign = 'right';
+	c.fillText(enemiesLife, w- 20, 50);
+	c.fillText(enemykL.toFixed(2), w- 20, 100);
+	c.fillText(ProjectilesNum, w- 20, 150);
+	c.lineWidth = '1';
+	c.strokeText(enemiesLife, w- 20, 50);
+	c.lineWidth = '1';
+	c.strokeText(enemykL.toFixed(2), w- 20, 100);
+	c.lineWidth = '1';
+	c.strokeText(ProjectilesNum, w- 20, 150);
 	timer = timer + 0.01;
 
-
-c.fillStyle = 'white';
-c.font = 'italic bold 90px Calibri';
-c.textAlign = 'left';
-c.fillText((timer).toFixed(1) + 's', 20, 90);
-c.lineWidth = '2';
-c.strokeText((timer).toFixed(1) + 's', 20, 90);
-
+	c.fillStyle = 'white';
+	c.font = 'italic bold 90px Calibri';
+	c.textAlign = 'left';
+	c.fillText((timer).toFixed(1) + 's', 20, 90);
+	c.lineWidth = '2';
+	c.strokeText((timer).toFixed(1) + 's', 20, 90);
 };
 
 
@@ -231,16 +198,15 @@ function Hero(x, y, speed){
 	};
 
 	this.enemykDet = function () {	
-					this.objDet = false;
-					for (i = 0; i < enemyk.length; i++){
-						if (enemyk[i].objDet === true)
-							{ this.objDet = true; 
-							 break;
-							} 
-						else {this.objDet = false;}
-					}
-					return this.objDet;
-	
+		this.objDet = false;
+		for (i = 0; i < enemyk.length; i++){
+			if (enemyk[i].objDet === true) {
+				this.objDet = true; 
+				 break;
+			} 
+			else {this.objDet = false;}
+		}
+		return this.objDet;
 	};
 	
 	this.stroke = function() {
@@ -332,19 +298,19 @@ function Hero(x, y, speed){
 		
 		this.stroke();
 			
-			if (isMouseDown  && this.enemykDet() === false  && this.enemiesDet() === false    ) {
-				if (this.reload == 100){
-					xonclick = mouse.x ;
-					yonclick = mouse.y ;
-					this.reload = 90;
-					}
-				this.move();
+		if (isMouseDown  && this.enemykDet() === false  && this.enemiesDet() === false) {
+			if (this.reload == 100) {
+				xonclick = mouse.x ;
+				yonclick = mouse.y ;
+				this.reload = 90;
 			}
-			else 
-				this.move();
+			this.move();
+		}
+		else 
+			this.move();
 				
-		if (this.reload < 100) {this.reload = (this.reload+1);} //reloading
-		if (this.areload < 100) {this.areload = (this.areload+1);} //reloading	
+		if (this.reload < 100) {this.reload = (this.reload + 1);} //reloading
+		if (this.areload < 100) {this.areload = (this.areload + 1);} //reloading	
 	};
 	
 	
@@ -439,7 +405,6 @@ this.by = 0;
 	}; 
 
 this.move = function(){
-		
 		var diffX = this.x - hero.x;
 		var diffY = this.y - hero.y;
 		var a = -Math.atan2(diffY, diffX);  
@@ -862,29 +827,24 @@ var randomCol = getRndColor(0,100,0,255,155,0);
 	this.bx = 0;
 	this.by = 0;
 	this.randomDest = function () {
-			var z = Math.sqrt (diffX * diffX
-						+ diffY * diffY);
+			var z = Math.sqrt (diffX * diffX + diffY * diffY);
 			this.rangle =Math.random()*Math.PI*2;            //random dest around hero
 		    this.radius =  Math.random()* 300 ;
 			this.destX =hero.x + Math.cos(this.rangle)*this.radius;
 			this.destY =hero.y + Math.sin(this.rangle)*this.radius;
 															//angle
 			var diffX = this.destX - this.x;
-			var diffY = this.destY - this.y;
-			
+			var diffY = this.destY - this.y;			
 			var a = -Math.atan2(diffY, diffX);  
-			this.angle =  Math.PI/2-a  ;
-															//velocities
+			this.angle =  Math.PI/2-a;
 			
 			this.vx = Math.cos(a) * speed;
 			this.vy = Math.sin(a) * speed; 
 			
 			this.randomDestSel = true; 
-		
-	
-};
+	};
 
-this.stroke = function () {
+	this.stroke = function () {
 		var x = this.x;
 		var y = this.y;
 		c.save();
@@ -904,97 +864,75 @@ this.stroke = function () {
 		c.stroke();
 		c.fill();
 		c.restore();
-		};
+	};
 
-this.move = function () {
-						this.x += this.vx;
-						this.y -= this.vy;
+	this.move = function () {
+		this.x += this.vx;
+		this.y -= this.vy;
 		
-		};
-this.launch = function () {
-		this.boom();
-		if (this.randomDestSel === false) {
-			randomEdge();
-			this.x = randomEdgeX;
-			this.y = randomEdgeY;
-			this.randomDest(); }
-			
-			
-		if (this.btimer === 0){
-	
-			this.move();
-			this.stroke();
-
-		}
-
-		if (this.hitHero() === true){
-		this.bx = this.x;
-		this.by = this.y;
-		this.x = null;
-		this.y = null;
-		this.vx = 0;
-		this.vy = 0;
-		hero.life -= 3;
-		this.btimer = 30;
-		}
-
-
-
-		if (this.btimer === 1){
-				this.btimer = 0;
-				this.randomDestSel = false
-		}
-
-		if (this.x > w + 500 || this.x < -500 || this.y > h+500 || this.y < -500) {
-				this.randomDestSel = false;
-				this.btimer = 0;
+	};
+	this.launch = function () {
+			this.boom();
+			if (this.randomDestSel === false) {
+				randomEdge();
+				this.x = randomEdgeX;
+				this.y = randomEdgeY;
+				this.randomDest(); }
+				
+				
+			if (this.btimer === 0){
 		
-		}
-		
-		
-
-};
-this.hitHero = function () {
-
-				var diffX = this.x - hero.x;
-				var diffY = this.y - hero.y;
-				var z = Math.sqrt(diffX * diffX +
-								 diffY * diffY);
-				if  (z < hero.melee + 25) { 
-					return true; }
-					else {return false;}
-
-
-
-		};
-	this.boom = function () {
-			
-			 
-
-			if (this.btimer > 1) {
-
-						c.save();
-						var r = 30/this.btimer;
-						c.beginPath();
-						c.globalAlpha = 0.02*this.btimer;
-						c.fillStyle = 'red';
-						c.arc(this.bx, this.by, r*10 + 15, 0, 2 * Math.PI, false);
-						c.fill();
-						
-						
-						c.beginPath();
-						
-						c.fillStyle = 'yellow';
-						c.arc(this.bx, this.by, r*20-15, 0, 2 * Math.PI, false);
-						
-						c.fill();
-						c.restore();
-					this.btimer -= 1;
+				this.move();
+				this.stroke();
 
 			}
-			
 
+			if (this.hitHero() === true){
+				this.bx = this.x;
+				this.by = this.y;
+				this.x = null;
+				this.y = null;
+				this.vx = 0;
+				this.vy = 0;
+				hero.life -= 3;
+				this.btimer = 30;
+			}
 
+			if (this.btimer === 1) {
+					this.btimer = 0;
+					this.randomDestSel = false
+			}
+
+			if (this.x > w + 500 || this.x < -500 || this.y > h+500 || this.y < -500) {
+					this.randomDestSel = false;
+					this.btimer = 0;
+			}
+	};
+	this.hitHero = function () {
+				var diffX = this.x - hero.x;
+				var diffY = this.y - hero.y;
+				var z = Math.sqrt(diffX * diffX + diffY * diffY);
+				return z < hero.melee + 25;
+	};
+	this.boom = function () {
+		if (this.btimer > 1) {
+
+			c.save();
+			var r = 30/this.btimer;
+			c.beginPath();
+			c.globalAlpha = 0.02*this.btimer;
+			c.fillStyle = 'red';
+			c.arc(this.bx, this.by, r*10 + 15, 0, 2 * Math.PI, false);
+			c.fill();
+
+			c.beginPath();
+			c.fillStyle = 'yellow';
+			c.arc(this.bx, this.by, r*20-15, 0, 2 * Math.PI, false);
+			c.fill();
+			c.restore();
+
+			this.btimer -= 1;
+		}
 	};
 };
 
@@ -1002,13 +940,13 @@ this.hitHero = function () {
 
 ///////////////////////////////////////////////////////////////////////////////
 function box (x,y,s,speed){
-this.x = x;
-this.y = y;
-this.s = s;
-this.speed = speed;
-this.angle =0;
-this.a = Math.random()*0.03;
-var randomColor = getRndColor(70,0,70,0,0,0);
+	this.x = x;
+	this.y = y;
+	this.s = s;
+	this.speed = speed;
+	this.angle =0;
+	this.a = Math.random()*0.03;
+	var randomColor = getRndColor(70,0,70,0,0,0);
 
 	this.stroke = function () {
 		var x = this.x;
@@ -1019,42 +957,35 @@ var randomColor = getRndColor(70,0,70,0,0,0);
 		c.fillStyle = randomColor;
 		c.fillRect(-this.s/2, -this.s/2,this.s,this.s);
 		c.restore();
-		};	
+	};
 
 	this.move = function () {
-					if (this.x > w + this.s || this.y < 0 - this.s) {
-												if (Math.random() > 0.5) {
-												this.x = Math.random()*w;
-												this.y = h + this.s;
-												}
-												else {
-												this.x = 0 -this.s;
-												this.y = Math.random() * h
-												}
-												
-						this.a = Math.random()*0.01;
-						randomColor = getRndColor(70,0,70,0,0,0);
-					}
-						this.angle += this.a;
-						this.x += this.speed;
-						this.y -= this.speed;
-					
-};
+		if (this.x > w + this.s || this.y < 0 - this.s) {
+			if (Math.random() > 0.5) {
+				this.x = Math.random()*w;
+				this.y = h + this.s;
+			}
+			else {
+				this.x = 0 -this.s;
+				this.y = Math.random() * h
+			}
+
+			this.a = Math.random()*0.01;
+			randomColor = getRndColor(70,0,70,0,0,0);
+		}
+		this.angle += this.a;
+		this.x += this.speed;
+		this.y -= this.speed;	
+	};
+
 	this.launch = function () {
-			this.move();
-			this.stroke();
-
-		};
+		this.move();
+		this.stroke();
+	};
 };
-
-
-
 
 
 var hero = new Hero(w/2,h/2, 5);
-
-
-
 
 
 var enemies = [];
@@ -1091,30 +1022,21 @@ var enemykR = 50;
 var enemykL = 0.9;
 var enemykRTI = 500;
 
-
-
-
- /////////OBJECT CREATORS
+/////////OBJECT CREATORS
 
 
 for (i = 0; i < boxesNum; i++) {
-var b = new box (w*Math.random(),h*Math.random(),boxesSize,boxesSpeed);
+	var b = new box (w*Math.random(),h*Math.random(),boxesSize,boxesSpeed);
 	boxes.push(b);
-
 }   
 for (i = 0; i < boxesNum2; i++) {
-var b = new box (w*Math.random(),h*Math.random(),boxesSize2,boxesSpeed2);
+	var b = new box (w*Math.random(),h*Math.random(),boxesSize2,boxesSpeed2);
 	boxes2.push(b);
-
 }   
 for (i = 0; i < boxesNum3; i++) {
-var b = new box (w*Math.random(),h*Math.random(),boxesSize3,boxesSpeed3);
+	var b = new box (w*Math.random(),h*Math.random(),boxesSize3,boxesSpeed3);
 	boxes3.push(b);
-
 }   
- 
- 
-
 
 
 var difficulty = function(){
@@ -1133,7 +1055,7 @@ var difficulty = function(){
 	ProjectilesNum = 2+ Math.round(timer/3000);
 
 	for (i = 0;Projectiles.length < ProjectilesNum; i++) {
-  randomEdge();
+  	randomEdge();
 	var b = new projectile (randomEdgeX,randomEdgeY,ProjectilesSize,ProjectilesSpeed);
 	Projectiles.push(b);
 
@@ -1145,74 +1067,37 @@ var difficulty = function(){
 	for (i = 0;enemyk.length < enemykNum; i++) {
   	var b = new enemyK (50,50,enemykR,enemykL,enemykRTI);
 	enemyk.push(b);
-
-
-	}
-
-
-	
+	}	
 };
 
 /////////////////////////////////////////////////////UPDATE SHIT
- function Update(){
-						if (hero.life > 0 ) {	
-difficulty();	
-	
-background();
-//c.fillStyle = 'white';
-//c.fillText(Projectiles[0].btimer, 200, 200);
-	
-
-
-	//  ITEM LAUNCHERSZ
-	for ( i = 0; i < boxesNum3; i++) { 
-  boxes3[i].launch();
-	}  
-	for ( i = 0; i < boxesNum2; i++) { 
-  boxes2[i].launch();
-	}  
-	for ( i = 0; i < boxesNum; i++) { 
-  boxes[i].launch();
-	}  
-hero.launch();
-  for ( i = 0; i < enemies.length; i++) { 
-  enemies[i].launch();  
-}
-  for ( i = 0; i < Projectiles.length; i++) { 
-  Projectiles[i].launch();
-	}  
-
-for ( i = 0; i < enemyk.length; i++) { 
-  enemyk[i].launch();
-	}  
-
-
- score();
-
-
-
-
-
-		
-			}
-					else hero.gameover();
-
+var objectLaunch = function(object) {
+	object.launch();
 };
 
+function update() {
+	if (hero.life <= 0) {
+		hero.gameover();
+		return;
+	}
 
+	difficulty();
+	clear();
 
+	hero.launch();
+	boxes.forEach(objectLaunch);
+	boxes2.forEach(objectLaunch)
+	boxes3.forEach(objectLaunch);
+	enemies.forEach(objectLaunch);
+	Projectiles.forEach(objectLaunch);
+	enemyk.forEach(objectLaunch);
 
+	score();		
+};
 
-
-
-
-
-
-
-
-
- function init() {
-  return setInterval(Update, 10);
+function init() {
+  background() // Create original bg.
+  setInterval(update, 14);
 }
 
 init();

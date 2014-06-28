@@ -1,6 +1,19 @@
+<html>
+<style>
+	canvas {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	#pane {
+		z-index: 1;
+	}
 
-
-<html><body> 
-<canvas tabindex="0" id=pane width=1900 height=900></canvas> 
-<script src="java.js"></script></body>
+</style>
+<body>
+	<canvas tabindex="0" id="pane" width="1900" height="900"></canvas> 
+	<canvas tabindex="0" id="background" width="1900" height="900"></canvas> 
+	
+<script src="java.js"></script>
+</body>
 </html> 
