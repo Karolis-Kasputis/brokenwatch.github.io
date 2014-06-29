@@ -1020,7 +1020,7 @@ var difficulty = function(){
 	}
 
 //////////////////////////////////
-	enemykL =  0.5- 0.3 * Math.floor(timeNow/30);
+	//enemykL =  0.5- 0.3 * Math.floor(timeNow/30);
 	for (i = 0;enemyk.length < enemykNum; i++) {
   	var b = new enemyK (50,50,enemykR,enemykL,enemykRTI);
 	enemyk.push(b);
