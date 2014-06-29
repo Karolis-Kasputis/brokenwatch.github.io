@@ -519,39 +519,39 @@ this.boom = function (){
 	this.launch = function () {
 		this.ID = enemies.indexOf(this);
 
-					this.enemyCol();
-					if (this.lifeLeft > 0){
-						this.stroke();}
-					else if (this.lifeLeft === 0 && this.btimer === 0){hero.life +=5;this.btimer = 30;}
+		this.enemyCol();
+		if (this.lifeLeft > 0){
+			this.stroke();}
+		else if (this.lifeLeft === 0 && this.btimer === 0){hero.life +=5;this.btimer = 30;}
 
-						this.move();
-						this.detect();
-						this.boom();
-						if (this.objDet && isMouseDown && this.inrange() && hero.areload == 100 && this.lifeLeft > 0) { //shootin
-						xonclick = hero.x; //stop moving while shootin
-						yonclick = hero.y;
-						this.lifeLeft -= 1;
-						hero.areload = 65;
-						hero.reload = 95;
-						this.rTimer = this.rTi;
-						this.bx = this.x;
-						this.by = this.y;
-
-
-						}
-
+		this.move();
+		this.detect();
+		this.boom();
+		
+		if (this.objDet && isMouseDown && this.inrange() && hero.areload == 100 && this.lifeLeft > 0) { //shootin
+		xonclick = hero.x; //stop moving while shootin
+		yonclick = hero.y;
+		this.lifeLeft -= 1;
+		hero.areload = 65;
+		hero.reload = 95;
+		this.rTimer = this.rTi;
+		this.bx = this.x;
+		this.by = this
+		}
 
 
 
-					if (this.damage() === true && hero.life > 0) { //if in range reduce hero health
+
+		if (this.damage() === true && hero.life > 0) { //if in range reduce hero health
 					hero.life -= 1;
-					}	
+					}
+					
 
 
-					if (this.lifeLeft === 0 && this.btimer === 1) {
+		if (this.lifeLeft === 0 && this.btimer === 1) {
 						enemies.splice(this.ID, 1);}	
 
-				if (this.x > w + 500 || this.x < -500 || this.y > h+500 || this.y < -500) {
+		if (this.x > w + 500 || this.x < -500 || this.y > h+500 || this.y < -500) {
 				enemies.splice(this.ID,1);}
 	};	
 
