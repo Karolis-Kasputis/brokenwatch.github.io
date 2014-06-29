@@ -8,6 +8,10 @@ function getRndColor(r,g,b,rr,gg,bb) {
     return 'rgb(' + r + ',' + g + ',' + b + ')';
 };
 
+
+
+
+
 var w = c.canvas.width;
 var h = c.canvas.height;
 var xonclick = w/2;
@@ -20,10 +24,8 @@ var keyW = false;
 var keyE = false;
 var keyR = false;
 var key1 = false;
-var sckeyboard = 0;
-var scmouse = 0;
-var timer = 0;
-var dif = 1;
+
+
 
 	  // tracking if mouse down
 	  var isMouseDown = false;
@@ -33,7 +35,7 @@ var dif = 1;
 		};
 		c.canvas.onmouseup = 
 			function(evt) {isMouseDown = false; }; 
-			
+
 		 //mouse position tracking
 		 var mouse = { x: 0, y: 0};
 		c.canvas.onmousemove = 
@@ -43,7 +45,7 @@ var dif = 1;
 				}; 
 	  // Keep track of whether the mouse is up or down
 
-	  
+
 	  // keyboard trackerz
  
   c.canvas.onkeydown = function(evt) {
@@ -102,8 +104,8 @@ var dif = 1;
 	} 
 };
 
-	  
-	  
+
+
 //LIBRARYSHIT//////////////////////////////////////////////////////////////////////////////
 //RANDOM EDGE STUFF
 var randomEdgeX = null;
@@ -111,10 +113,17 @@ var randomEdgeY = null;
 
 
 function randomEdge () {
-	this.x = Math.random() * w;
-	this.y = Math.random() > 0.5 ? 0 : h;
+	if (Math.random() > 0.5) {
+		this.x = Math.random() * w;
+		this.y = Math.random() > 0.5 ? 0 : h;
+	}
+	else {
+		this.y = Math.random() * h;
+		this.x = Math.random() > 0.5 ? 0 : w;
+	}
+
 	randomEdgeX = this.x;
-	randomEdgeY = this.y
+	randomEdgeY = this.y;
 };
 
 ////////////////////////////////////////////////////////////////////
@@ -160,14 +169,13 @@ function score() {
 	c.strokeText(enemykL.toFixed(2), w- 20, 100);
 	c.lineWidth = '1';
 	c.strokeText(ProjectilesNum, w- 20, 150);
-	timer = timer + 0.01;
 
 	c.fillStyle = 'white';
 	c.font = 'italic bold 90px Calibri';
 	c.textAlign = 'left';
-	c.fillText((timer).toFixed(1) + 's', 20, 90);
+	c.fillText((timeNow).toFixed(1) + 's', 20, 90);
 	c.lineWidth = '2';
-	c.strokeText((timer).toFixed(1) + 's', 20, 90);
+	c.strokeText((timeNow).toFixed(1) + 's', 20, 90);
 };
 
 
@@ -194,7 +202,7 @@ function Hero(x, y, speed){
 						else {this.objDet = false;}
 					}
 					return this.objDet;
-	
+
 	};
 
 	this.enemykDet = function () {	
@@ -208,13 +216,13 @@ function Hero(x, y, speed){
 		}
 		return this.objDet;
 	};
-	
+
 	this.stroke = function() {
 		c.save();
 		var x = this.x;
 		var y = this.y;
-		
-		
+
+
 		c.translate(x ,y); 
 		c.beginPath();
 		   c.arc(0, 0, this.range, 0, 2 * Math.PI, false);
@@ -225,14 +233,14 @@ function Hero(x, y, speed){
 		  c.lineWidth = 1;
 		  c.strokeStyle = 'green';
 		  c.stroke();
-		  
+
 		  c.beginPath();
 		  c.lineWidth = 10;
 		  c.globalAlpha = 1;
 		  c.arc(0,0 ,(this.melee-5)*(this.areload/100)+10, 0,  ((this.areload-70)*13)*(Math.PI/180), false);//reloading
 		  c.strokeStyle = '#03adfc';
 		  c.stroke();
-		  
+
 		  c.beginPath();
 		  c.globalAlpha = 1;
 		  c.arc(0, 0, this.melee, 0, 2 * Math.PI, false);
@@ -247,15 +255,15 @@ function Hero(x, y, speed){
 		  c.strokeStyle = 'green';
 		  c.arc(0,0 ,this.melee+10, 0,  2*Math.PI, false);//black lning
 		  c.stroke();
-		  
+
 		  c.strokeStyle = 'black';
 		  c.beginPath();
 		  c.arc(0, 0, 30, 0, 2 * Math.PI, false);
 		  c.fillStyle = 'green';
 		  c.fill();
-		  
-		  
-		  
+
+
+
 		  c.strokeStyle = 'black';
 		  c.fillStyle = 'white';
 		  c.globalAlpha = 1;
@@ -266,38 +274,38 @@ function Hero(x, y, speed){
 		  c.strokeText( hero.life, 0, 10);
 		  c.strokeStyle = 'black'
 		  c.restore();
-		  
+
 		};
-	
+
 	this.move = function() {
-		
+
 							var diffX = this.x - xonclick;
 							var diffY = this.y - yonclick;
 							var z = Math.sqrt(diffX * diffX +
 											   diffY * diffY);
 						 var a = -Math.atan2(diffY, diffX);
-					   
+
 							var vx = Math.cos(a) * speed ;
 							var vy = Math.sin(a) * speed ;
-							
+
 					if (xonclick - this.x >= vx || this.x - xonclick >= vx ){
 							this.x -= vx;
 							}
 						else { this.x == this.x}
-						
-					
+
+
 					if (yonclick - this.y >= vy || this.y - yonclick >= vy) {
 						this.y += vy;
 						}
 						else { this.y == this.y}
-							
+
 	}
-	
-	
+
+
 	this.launch = function() {
-		
+
 		this.stroke();
-			
+
 		if (isMouseDown  && this.enemykDet() === false  && this.enemiesDet() === false) {
 			if (this.reload == 100) {
 				xonclick = mouse.x ;
@@ -308,15 +316,15 @@ function Hero(x, y, speed){
 		}
 		else 
 			this.move();
-				
+
 		if (this.reload < 100) {this.reload = (this.reload + 1);} //reloading
 		if (this.areload < 100) {this.areload = (this.areload + 1);} //reloading	
 	};
-	
-	
-	
+
+
+
 	this.gameover= function(){
-	if (this.life === 0 || timer < 0.1 ) {
+	if (this.life === 0) {
 	 c.strokeStyle = '#8B1A89';
 	 c.fillStyle = 'white';
 	 c.textAlign = 'center';
@@ -327,9 +335,9 @@ function Hero(x, y, speed){
 	 this.dx = 0; 
 	 this.dy = 0;
 	}
-	
+
 	};
-	
+
 };
 
 
@@ -355,16 +363,16 @@ this.by = 0;
 		c.save();
 		var x = this.x;
 		var y = this.y;
-		
+
 		c.beginPath();
 		c.translate(x ,y); 
-		
+
 		  c.arc(0, 0, r, 0, 2 * Math.PI, false);
 		  c.lineWidth = 1;
 		  c.fillStyle = '#002395';
 		  c.globalAlpha = 1;
 		  c.fill();
-		  
+
 		  c.lineWidth = 1;
 		  c.fillStyle = '#03adfc';
 		  c.strokeStyle = 'black'
@@ -373,7 +381,7 @@ this.by = 0;
 		  c.fillText( this.lifeLeft, 0, 15	); 
 		  c.strokeText( this.lifeLeft, 0, 15	);
 		  c.restore(); 
-		  
+
 			if (this.objDet) {
 		    c.save();
 			var x = this.x;
@@ -412,8 +420,8 @@ this.move = function(){
 		var vy = Math.sin(a) * this.speed ;
 		var z =Math.sqrt(diffX * diffX +
 						diffY * diffY);
-		
-		
+
+
 		if (this.r + hero.melee > z ) { //check if melee range
 				this.x += vx;
 				this.y -= vy;
@@ -433,14 +441,14 @@ this.move = function(){
 			this.y -= vy*0.5;
 			if (bumpTimer == 0) {bumpTimer = 10;}
 			}
-			
-		
+
+
 			if (bumpTimer > 0) {bumpTimer = bumpTimer - 1;}
-			
-			
-			
+
+
+
 			/////////////////ENEMY COLLISION MIGHT BREAK SHITT
-	 	 
+
 		/*  for ( i = 0; i < enemiesNum; i++) {
 				var enDiffX = this.x - enemies[i].x;
 				var enDiffY = this.y - enemies[i].y;
@@ -455,13 +463,13 @@ this.move = function(){
 						
 				
 		}		  */
-			
-		
+
+
 		///////////////////////////////
-		
-		
+
+
 		}; 
-		
+
 this.enemyCol = function () {
 				//this.col = false;
 				for ( j = 0 ; j < enemies.length; j++){
@@ -469,22 +477,22 @@ this.enemyCol = function () {
 				var enDiffY = this.y - enemies[j].y;
 				var enz =  Math.sqrt(enDiffX * enDiffX +
 								enDiffY * enDiffY);
-				
+
 							if (this.r + enemies[j].r > enz && this.ID !== j){
 												  this.col = true;	
 												  break;
 									}
 							else this.col = false;
-												
+
 				}
-										
-				
-			
+
+
+
 				return this.col;
 
 
 } ;
-	
+
  this.detect = function(){
 				var diffX = this.x - mouse.x;
 				var diffY = this.y - mouse.y;
@@ -494,11 +502,11 @@ this.enemyCol = function () {
 				 return this.objDet = true;
 				}
 				else { return this.objDet = false;}
-				
-				
-				
+
+
+
 			};
-	
+
 this.inrange = function () {
 				var diffX = this.x - hero.x;
 				var diffY = this.y - hero.y;
@@ -539,7 +547,7 @@ this.boom = function (){
 						c.fillStyle = '03adfc';
 						c.arc(this.bx, this.by, r*10 +20, 0, 2 * Math.PI, false);
 						c.fill();
-						
+
 						c.restore();
 					this.btimer -= 1;
 
@@ -551,7 +559,7 @@ this.boom = function (){
 
 	this.launch = function () {
 		this.ID = enemies.indexOf(this);
-		 
+
 					this.enemyCol();
 					if (this.lifeLeft > 0){
 						this.stroke();}
@@ -569,17 +577,17 @@ this.boom = function (){
 						this.rTimer = this.rTi;
 						this.bx = this.x;
 						this.by = this.y;
-						
-						
+
+
 						}
 
-				 
-						
-					
+
+
+
 					if (this.damage() === true && hero.life > 0) { //if in range reduce hero health
 					hero.life -= 1;
 					}	
-				
+
 
 					if (this.lifeLeft === 0 && this.btimer === 1) {
 						//hero.life +=1;
@@ -588,8 +596,8 @@ this.boom = function (){
 				if (this.x > w + 500 || this.x < -500 || this.y > h+500 || this.y < -500) {
 				enemies.splice(this.ID,1);}
 	};	
-	
-	
+
+
 };
 
 ////////////////////////ENEMY K
@@ -636,7 +644,7 @@ function enemyK (x, y, r, l, rti){
 		  c.strokeText( this.keyTypeName, 0, 15);
 
 		  c.restore();
-		
+
 		if (this.objDet) {
 						c.save();
 						var x = this.x;
@@ -666,7 +674,7 @@ function enemyK (x, y, r, l, rti){
 						//c.stroke();
 						//}
 
-		
+
 	};
 	this.randomEnemy = function () {
 			switch (Math.round(Math.random()*7)){
@@ -703,9 +711,9 @@ function enemyK (x, y, r, l, rti){
 			this.keyTypeName = 'F';
 			break;
 			}
-	
+
 	};
-	
+
 
 	this.detect = function(){
 				var diffX = this.x - mouse.x;
@@ -716,9 +724,9 @@ function enemyK (x, y, r, l, rti){
 				 return this.objDet = true;
 				}
 				else { return this.objDet = false;}
-				
+
 	};			
-	
+
 this.boom = function (){
 	if (this.btimer > 1) {
 
@@ -738,7 +746,7 @@ this.boom = function (){
 						c.fillStyle = '#390c46';
 						c.arc(this.bx, this.by, r*10 +20, 0, 2 * Math.PI, false);
 						c.fill();
-						
+
 						c.restore();
 					this.btimer -= 1;
 
@@ -750,11 +758,11 @@ this.boom = function (){
 
 
 	//_____________________________________________
-	
+
 	this.launch = function() {
-	  	
+
 	   if (this.life == 0 && this.rTimer == 0 ) {
-	   
+
 		   this.randomEnemy();
 		  //RANDOM LOCATION ///////////////////////////////////////////////////////////////////////////
 		  var angle = Math.random()*Math.PI*2;            
@@ -765,7 +773,7 @@ this.boom = function (){
 								else if (this.x > w - this.r) { this.x = w - this.r;}
 							if (this.y < this.r) {this.y = this.r;}
 								else if (this.y > h - this.r) { this.y = h - this.r;}
-		
+
 		   //RANDOM LOCATION/////////////////////////////////////////////////////////////////////////
 		   this.stroke();
 		   this.life = this.lifeTime;
@@ -777,17 +785,17 @@ this.boom = function (){
 			  	this.x = null; 
 			  this.y = null;
 			  } 
-	  
+
 	  //________________________________________________
-	  
+
 	  if (this.life > 0) {
 	  this.life = (this.life-0.01).toFixed(2);
 	  this.stroke();
 	  }
-	  
+
 	  if (this.life == 0 && this.rTimer > 0) {this.rTimer = (this.rTimer-1);}
-		
-		
+
+
 		if (this.objDet === true && this.keyType() === true) {
 			this.bx = this.x;
 			this.by = this.y;
@@ -795,10 +803,10 @@ this.boom = function (){
 			this.life = 0;
 			this.x = null;
 			this.y = null;
-			sckeyboard += 1;
+			
 			hero.life += 5;
 			this.herokill = true;
-			
+
 		}
 	   if (this.herokill === false && this.life == 0 && hero.life > 0){
 	   	hero.life -= 5;
@@ -837,10 +845,10 @@ var randomCol = getRndColor(0,100,0,255,155,0);
 			var diffY = this.destY - this.y;			
 			var a = -Math.atan2(diffY, diffX);  
 			this.angle =  Math.PI/2-a;
-			
+
 			this.vx = Math.cos(a) * speed;
 			this.vy = Math.sin(a) * speed; 
-			
+
 			this.randomDestSel = true; 
 	};
 
@@ -869,7 +877,7 @@ var randomCol = getRndColor(0,100,0,255,155,0);
 	this.move = function () {
 		this.x += this.vx;
 		this.y -= this.vy;
-		
+
 	};
 	this.launch = function () {
 			this.boom();
@@ -878,10 +886,10 @@ var randomCol = getRndColor(0,100,0,255,155,0);
 				this.x = randomEdgeX;
 				this.y = randomEdgeY;
 				this.randomDest(); }
-				
-				
+
+
 			if (this.btimer === 0){
-		
+
 				this.move();
 				this.stroke();
 
@@ -1041,7 +1049,7 @@ for (i = 0; i < boxesNum3; i++) {
 
 var difficulty = function(){
 	/////////////////////WORKS WELL YO
-	enemiesLife = 2 + Math.round(timer/90);
+	enemiesLife = 2 + Math.round(timeNow/90);
 	if (enResp > 0) {enResp -= 1;}
 	else if (enResp === 0 && enemies.length < enemiesNum) {  //ENEMY GENERATOR
   		randomEdge();
@@ -1049,10 +1057,10 @@ var difficulty = function(){
 		enemies.push(e);
 		enResp = enemiesRespawn;
 	}
-	
+
 
 	/////////////////  PROJECTILES
-	ProjectilesNum = 2+ Math.round(timer/3000);
+	ProjectilesNum = 2+ Math.round(timeNow/3000);
 
 	for (i = 0;Projectiles.length < ProjectilesNum; i++) {
   	randomEdge();
@@ -1063,7 +1071,7 @@ var difficulty = function(){
 	}
 
 //////////////////////////////////
-	enemykL = 1- 0.05 * Math.round(timer/10);
+	enemykL = 1- 0.05 * Math.round(timeNow/10);
 	for (i = 0;enemyk.length < enemykNum; i++) {
   	var b = new enemyK (50,50,enemykR,enemykL,enemykRTI);
 	enemyk.push(b);
@@ -1075,29 +1083,55 @@ var objectLaunch = function(object) {
 	object.launch();
 };
 
+
+function timeStamp() {
+	return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
+};
+
+var time = (timeStamp())/1000;
+var timeNow = 0;
+var timeLast = 0;
+
+function timeUpdate() {
+timeNow = (timeStamp() - time)/1000;
+};
+
+
+
+
 function update() {
-	if (hero.life <= 0) {
-		hero.gameover();
-		return;
+	timeUpdate();
+	if (timeNow - timeLast > 1/100){
+			timeLast = timeNow;	
+
+			if (hero.life <= 0) {
+				hero.gameover();
+				return;
+					}
+
+				difficulty();
+				clear();
+
+				hero.launch();
+				boxes.forEach(objectLaunch);
+				boxes2.forEach(objectLaunch)
+				boxes3.forEach(objectLaunch);
+				enemies.forEach(objectLaunch);
+				Projectiles.forEach(objectLaunch);
+				enemyk.forEach(objectLaunch);
+
+				score();
+		
+				window.requestAnimationFrame(update);
 	}
+	else  setTimeout(update,10);
 
-	difficulty();
-	clear();
 
-	hero.launch();
-	boxes.forEach(objectLaunch);
-	boxes2.forEach(objectLaunch)
-	boxes3.forEach(objectLaunch);
-	enemies.forEach(objectLaunch);
-	Projectiles.forEach(objectLaunch);
-	enemyk.forEach(objectLaunch);
-
-	score();		
 };
 
 function init() {
-  background() // Create original bg.
-  setInterval(update, 14);
+  	background() // Create original bg.
+  	window.requestAnimationFrame(update);
 }
 
 init();
