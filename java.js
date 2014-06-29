@@ -179,8 +179,6 @@ function score() {
 };
 
 
-// The parameters of strokeRect are
-// strokeRect(left, top, width, height)
 function Hero(x, y, speed){
 	this.x = x; 
 	this.y = y;
@@ -225,79 +223,68 @@ function Hero(x, y, speed){
 
 		c.translate(x ,y); 
 		c.beginPath();
-		   c.arc(0, 0, this.range, 0, 2 * Math.PI, false);
-		  c.fillStyle = 'white';
-		  c.globalAlpha = 0.05;
-		  c.fill();
-		  c.globalAlpha = 1;
-		  c.lineWidth = 1;
-		  c.strokeStyle = 'green';
-		  c.stroke();
-
-		  c.beginPath();
-		  c.lineWidth = 10;
-		  c.globalAlpha = 1;
-		  c.arc(0,0 ,(this.melee-5)*(this.areload/100)+10, 0,  ((this.areload-70)*13)*(Math.PI/180), false);//reloading
-		  c.strokeStyle = '#03adfc';
-		  c.stroke();
-
-		  c.beginPath();
-		  c.globalAlpha = 1;
-		  c.arc(0, 0, this.melee, 0, 2 * Math.PI, false);
-		  c.fillStyle = '#009c00';
-		  c.fill();
-		  c.globalAlpha = 1;
-		  c.lineWidth = 2;
-		  c.strokeStyle = 'black';
-		  c.stroke();
-		  c.beginPath();
-		  c.lineWidth = 2;
-		  c.strokeStyle = 'green';
-		  c.arc(0,0 ,this.melee+10, 0,  2*Math.PI, false);//black lning
-		  c.stroke();
-
-		  c.strokeStyle = 'black';
-		  c.beginPath();
-		  c.arc(0, 0, 30, 0, 2 * Math.PI, false);
-		  c.fillStyle = 'green';
-		  c.fill();
-
-
-
-		  c.strokeStyle = 'black';
-		  c.fillStyle = 'white';
-		  c.globalAlpha = 1;
-		  c.textAlign = 'center';
-		  c.font = 'italic bold 30px Calibri';
-		  c.fillText( hero.life, 0, 10);
-		  c.lineWidth = 1;
-		  c.strokeText( hero.life, 0, 10);
-		  c.strokeStyle = 'black'
-		  c.restore();
+		c.arc(0, 0, this.range, 0, 2 * Math.PI, false);
+		c.fillStyle = 'white';
+		c.globalAlpha = 0.05;
+		c.fill();
+		c.globalAlpha = 1;
+		c.lineWidth = 1;
+		c.strokeStyle = 'green';
+		c.stroke();
+		c.beginPath();
+		c.lineWidth = 10;
+		c.globalAlpha = 1;
+		c.arc(0,0 ,(this.melee-5)*(this.areload/100)+10, 0,  ((this.areload-70)*13)*(Math.PI/180), false);//reloading
+		c.strokeStyle = '#03adfc';
+		c.stroke();
+		c.beginPath();
+		c.globalAlpha = 1;
+		c.arc(0, 0, this.melee, 0, 2 * Math.PI, false);
+		c.fillStyle = '#009c00';
+		c.fill();
+		c.globalAlpha = 1;
+		c.lineWidth = 2;
+		c.strokeStyle = 'black';
+		c.stroke();
+		c.beginPath();
+		c.lineWidth = 2;
+		c.strokeStyle = 'green';
+		c.arc(0,0 ,this.melee+10, 0,  2*Math.PI, false);//black lning
+		c.stroke();
+		c.strokeStyle = 'black';
+		c.beginPath();
+		c.arc(0, 0, 30, 0, 2 * Math.PI, false);
+		c.fillStyle = 'green';
+		c.fill();
+		c.strokeStyle = 'black';
+		c.fillStyle = 'white';
+		c.globalAlpha = 1;
+		c.textAlign = 'center';
+		c.font = 'italic bold 30px Calibri';
+		c.fillText( hero.life, 0, 10);
+		c.lineWidth = 1;
+		c.strokeText( hero.life, 0, 10);
+		c.strokeStyle = 'black'
+		c.restore();
 
 		};
 
 	this.move = function() {
 
-							var diffX = this.x - xonclick;
-							var diffY = this.y - yonclick;
-							var z = Math.sqrt(diffX * diffX +
+						var diffX = this.x - xonclick;
+						var diffY = this.y - yonclick;
+						var z = Math.sqrt(diffX * diffX +
 											   diffY * diffY);
-						 var a = -Math.atan2(diffY, diffX);
+						var a = -Math.atan2(diffY, diffX);
+						var vx = Math.cos(a) * speed ;
+						var vy = Math.sin(a) * speed ;
 
-							var vx = Math.cos(a) * speed ;
-							var vy = Math.sin(a) * speed ;
-
-					if (xonclick - this.x >= vx || this.x - xonclick >= vx ){
+						if (xonclick - this.x >= vx || this.x - xonclick >= vx ){
 							this.x -= vx;
 							}
-						else { this.x == this.x}
-
-
-					if (yonclick - this.y >= vy || this.y - yonclick >= vy) {
-						this.y += vy;
+						if (yonclick - this.y >= vy || this.y - yonclick >= vy) {
+							this.y += vy;
 						}
-						else { this.y == this.y}
 
 	}
 
@@ -310,30 +297,30 @@ function Hero(x, y, speed){
 			if (this.reload == 100) {
 				xonclick = mouse.x ;
 				yonclick = mouse.y ;
-				this.reload = 90;
+				this.reload = 95;
 			}
 			this.move();
 		}
 		else 
 			this.move();
 
-		if (this.reload < 100) {this.reload = (this.reload + 1);} //reloading
-		if (this.areload < 100) {this.areload = (this.areload + 1);} //reloading	
+		if (this.reload < 100) {this.reload = (this.reload + 1);} //MOVE reloading
+		if (this.areload < 100) {this.areload = (this.areload + 1);} //ATTACK reloading	
 	};
 
 
 
 	this.gameover= function(){
 	if (this.life === 0) {
-	 c.strokeStyle = '#8B1A89';
-	 c.fillStyle = 'white';
-	 c.textAlign = 'center';
-	 c.font = 'italic bold 100px Calibri';
-	 c.fillText( 'GAME OVER ', w/2, h/2);
-	 c.lineWidth = 5;
-	 c.strokeText('GAME OVER ', w/2, h/2);
-	 this.dx = 0; 
-	 this.dy = 0;
+	 	c.strokeStyle = '#8B1A89';
+	 	c.fillStyle = 'white';
+	 	c.textAlign = 'center';
+	 	c.font = 'italic bold 100px Calibri';
+	 	c.fillText( 'GAME OVER ', w/2, h/2);
+	 	c.lineWidth = 5;
+	 	c.strokeText('GAME OVER ', w/2, h/2);
+	 	this.dx = 0; 
+	 	this.dy = 0;
 	}
 
 	};
@@ -343,46 +330,44 @@ function Hero(x, y, speed){
 
 // ENEMY            ////////////////////////////////////////////////////////////////////////////
 function Enemy(x, y, speed, life,r, ID) {
-this.ID = 1;
-this.rTi = 50;
-this.x = x;
-this.y = y;
-this.r = r;
-this.speed = speed;
-this.life = life;
-this.lifeLeft = life;
-this.objDet = false;  
-this.reload = 0.5;
-this.rTimer = 0;
-var bumpTimer = 0;
-this.btimer = 0;
-this.bx = 0;
-this.by = 0;
+		this.ID = 1;
+		this.rTi = 50;
+		this.x = x;
+		this.y = y;
+		this.r = r;
+		this.speed = speed;
+		this.life = life;
+		this.lifeLeft = life;
+		this.objDet = false;  
+		this.reload = 0.5;
+		this.rTimer = 0;
+		var bumpTimer = 0;
+		this.btimer = 0;
+		this.bx = 0;
+		this.by = 0;
 
  this.stroke= function(){
 		c.save();
 		var x = this.x;
 		var y = this.y;
-
+		
 		c.beginPath();
 		c.translate(x ,y); 
+		c.arc(0, 0, r, 0, 2 * Math.PI, false);
+		c.lineWidth = 1;
+		c.fillStyle = '#002395';
+		c.globalAlpha = 1;
+		c.fill();
+		c.lineWidth = 1;
+		c.fillStyle = '#03adfc';
+		c.strokeStyle = 'black'
+		c.font = 'italic 60px Calibri';
+		c.textAlign = 'center'; 
+		c.fillText( this.lifeLeft, 0, 15	); 
+		c.strokeText( this.lifeLeft, 0, 15	);
+		c.restore(); 
 
-		  c.arc(0, 0, r, 0, 2 * Math.PI, false);
-		  c.lineWidth = 1;
-		  c.fillStyle = '#002395';
-		  c.globalAlpha = 1;
-		  c.fill();
-
-		  c.lineWidth = 1;
-		  c.fillStyle = '#03adfc';
-		  c.strokeStyle = 'black'
-		  c.font = 'italic 60px Calibri';
-		  c.textAlign = 'center'; 
-		  c.fillText( this.lifeLeft, 0, 15	); 
-		  c.strokeText( this.lifeLeft, 0, 15	);
-		  c.restore(); 
-
-			if (this.objDet) {
+		if (this.objDet) {
 		    c.save();
 			var x = this.x;
 			var y = this.y;
@@ -404,12 +389,12 @@ this.by = 0;
 			c.strokeStyle = 'black';
 			c.stroke();
 			c.restore();
-			}
-			else {
+		}
+		else {
 			c.strokeStyle = '#03adfc'
 			c.lineWidth = 3;
 			c.stroke();
-			}
+		}
 	}; 
 
 this.move = function(){
@@ -423,11 +408,11 @@ this.move = function(){
 
 
 		if (this.r + hero.melee > z ) { //check if melee range
-				this.x += vx;
-				this.y -= vy;
+			this.x += vx;
+			this.y -= vy;
 
-					if (bumpTimer == 0) {bumpTimer = 10;}
-					}	
+			if (bumpTimer == 0) {bumpTimer = 10;}
+			}	
 		else  if (bumpTimer == 0) { //if not in melee range jsut go towards
 			this.x -= vx;
 			this.y += vy;
@@ -436,38 +421,12 @@ this.move = function(){
 			this.x += vx*0.5;
 			this.y -= vy*0.7;
 			}
-		 if (this.enemyCol() === true){
+		if (this.enemyCol() === true){
 			this.x += vx*0.5;
 			this.y -= vy*0.5;
 			if (bumpTimer == 0) {bumpTimer = 10;}
-			}
-
-
-			if (bumpTimer > 0) {bumpTimer = bumpTimer - 1;}
-
-
-
-			/////////////////ENEMY COLLISION MIGHT BREAK SHITT
-
-		/*  for ( i = 0; i < enemiesNum; i++) {
-				var enDiffX = this.x - enemies[i].x;
-				var enDiffY = this.y - enemies[i].y;
-				var enz =  Math.sqrt(enDiffX * enDiffX +
-								enDiffY * enDiffY);
-				
-						if (this.r + enemies[i].r > enz && this.ID !== i){
-									this.x += vx;
-									this.y -= vy;
-										if (bumpTimer == 0) {bumpTimer = 10;}
-						}
-						
-				
-		}		  */
-
-
-		///////////////////////////////
-
-
+		}
+		if (bumpTimer > 0) {bumpTimer = bumpTimer - 1;}
 		}; 
 
 this.enemyCol = function () {
@@ -565,15 +524,15 @@ this.boom = function (){
 						this.stroke();}
 					else if (this.lifeLeft === 0 && this.btimer === 0){hero.life +=5;this.btimer = 30;}
 
-					this.move();
-					this.detect();
-					this.boom();
+						this.move();
+						this.detect();
+						this.boom();
 						if (this.objDet && isMouseDown && this.inrange() && hero.areload == 100 && this.lifeLeft > 0) { //shootin
 						xonclick = hero.x; //stop moving while shootin
 						yonclick = hero.y;
 						this.lifeLeft -= 1;
 						hero.areload = 65;
-						hero.reload = 85;
+						hero.reload = 95;
 						this.rTimer = this.rTi;
 						this.bx = this.x;
 						this.by = this.y;
@@ -590,7 +549,6 @@ this.boom = function (){
 
 
 					if (this.lifeLeft === 0 && this.btimer === 1) {
-						//hero.life +=1;
 						enemies.splice(this.ID, 1);}	
 
 				if (this.x > w + 500 || this.x < -500 || this.y > h+500 || this.y < -500) {
@@ -606,7 +564,7 @@ function enemyK (x, y, r, l, rti){
 	this.rTi = rti;
 	this.lifeTime = l;
 	this.objDet = false;
-	this.rTimer = 0;
+	this.rTimer = Math.round(Math.random()*500);
 	this.life = 0;
 	this.x = x;
 	this.y = y;
@@ -622,28 +580,24 @@ function enemyK (x, y, r, l, rti){
 		var	y = this.y;
 		c.beginPath();
 		c.translate(x ,y); 
-		  c.arc(0, 0, r, 0, 2 * Math.PI, false);
-		  c.fillStyle = '#9dacdf';
-		  c.globalAlpha = 0.75;
-		  c.fill();
-
-			c.arc(0, 0, r, 0, 2 * Math.PI, false);
+		c.arc(0, 0, r, 0, 2 * Math.PI, false);
+		c.fillStyle = '#9dacdf';
+		c.globalAlpha = 0.75;
+		c.fill();
+		c.arc(0, 0, r, 0, 2 * Math.PI, false);
 		this.strokeWidth = 4;
-		  c.strokeStyle = '#6f00ff';
-		  c.lineWidth = 4;
-		  c.globalAlpha = 1;
-		  c.stroke();
-
-			c.lineWidth = 1;
-		  c.font = 'italic bold 60px Calibri';
-		  c.textAlign = 'center'; 
-		  c.fillStyle = '#9820bc';
-		  c.fillText( this.keyTypeName, 0, 15);
-
-		  c.strokeStyle = 'black'
-		  c.strokeText( this.keyTypeName, 0, 15);
-
-		  c.restore();
+		c.strokeStyle = '#6f00ff';
+		c.lineWidth = 4;
+		c.globalAlpha = 1;
+		c.stroke();
+		c.lineWidth = 1;
+		c.font = 'italic bold 60px Calibri';
+		c.textAlign = 'center'; 
+		c.fillStyle = '#9820bc';
+		c.fillText( this.keyTypeName, 0, 15);
+		c.strokeStyle = 'black'
+		c.strokeText( this.keyTypeName, 0, 15);
+		c.restore();
 
 		if (this.objDet) {
 						c.save();
@@ -668,11 +622,6 @@ function enemyK (x, y, r, l, rti){
 						c.stroke();
 						c.restore();
 						}
-						//else {
-						//c.strokeStyle = 'black'
-						///c.lineWidth = 3;
-						//c.stroke();
-						//}
 
 
 	};
@@ -748,7 +697,7 @@ this.boom = function (){
 						c.fill();
 
 						c.restore();
-					this.btimer -= 1;
+						this.btimer -= 1;
 
 			}
 
@@ -775,14 +724,14 @@ this.boom = function (){
 								else if (this.y > h - this.r) { this.y = h - this.r;}
 
 		   //RANDOM LOCATION/////////////////////////////////////////////////////////////////////////
-		   this.stroke();
-		   this.life = this.lifeTime;
+		    this.stroke();
+		    this.life = this.lifeTime;
 			this.rTimer = Math.round(this.rTi* Math.random());
 			this.herokill = false;
 	  }
 	   else if(this.life == 0) 
 			  {
-			  	this.x = null; 
+			  this.x = null; 
 			  this.y = null;
 			  } 
 
@@ -799,7 +748,7 @@ this.boom = function (){
 		if (this.objDet === true && this.keyType() === true) {
 			this.bx = this.x;
 			this.by = this.y;
-			 this.btimer = 30;
+			this.btimer = 30;
 			this.life = 0;
 			this.x = null;
 			this.y = null;
@@ -813,7 +762,7 @@ this.boom = function (){
 	   	this.herokill = true;
 	   }
 	this.boom();
-	 this.detect();
+	this.detect();
 	};
 
 };
@@ -993,42 +942,42 @@ function box (x,y,s,speed){
 };
 
 
-var hero = new Hero(w/2,h/2, 5);
+var hero = new Hero(w/2,h/2, 7);
 
 
 var enemies = [];
 var enemiesNum = 5;
 var enemiesLife = 3;
 var enemiesSize = 50;
-var enemiesSpeed = 4.2;
+var enemiesSpeed = 6.2;
 var enemiesRespawn = 250;
 var enResp = enemiesRespawn;
 
 var Projectiles = [];
 var ProjectilesNum = 10;
-var ProjectilesSpeed = 10;
+var ProjectilesSpeed = 16;
 var ProjectilesSize = 1;
 
 var boxes = [];
-var boxesNum = 0;//4
+var boxesNum = 4;//4
 var boxesSpeed = 0.8;
 var boxesSize = 80;
 
 var boxes2 = [];
-var boxesNum2 = 0;//14
+var boxesNum2 = 14;//14
 var boxesSpeed2 = 0.4;
 var boxesSize2 = 45;
 
 var boxes3 = [];
-var boxesNum3 = 0 ;//30
+var boxesNum3 = 30 ;//30
 var boxesSpeed3 = 0.2;
 var boxesSize3 = 15;
 
 var enemyk = [];
-var enemykNum = 1;
+var enemykNum = 2;
 var enemykR = 50;
-var enemykL = 0.9;
-var enemykRTI = 500;
+var enemykL = 0.5;
+var enemykRTI = 700;
 
 /////////OBJECT CREATORS
 
@@ -1049,7 +998,7 @@ for (i = 0; i < boxesNum3; i++) {
 
 var difficulty = function(){
 	/////////////////////WORKS WELL YO
-	enemiesLife = 2 + Math.round(timeNow/90);
+	enemiesLife = 2 + Math.floor(timeNow/30);
 	if (enResp > 0) {enResp -= 1;}
 	else if (enResp === 0 && enemies.length < enemiesNum) {  //ENEMY GENERATOR
   		randomEdge();
@@ -1060,7 +1009,7 @@ var difficulty = function(){
 
 
 	/////////////////  PROJECTILES
-	ProjectilesNum = 2+ Math.round(timeNow/3000);
+	ProjectilesNum = 2+ Math.floor((timeNow)/30);
 
 	for (i = 0;Projectiles.length < ProjectilesNum; i++) {
   	randomEdge();
@@ -1071,7 +1020,7 @@ var difficulty = function(){
 	}
 
 //////////////////////////////////
-	enemykL = 1- 0.05 * Math.round(timeNow/10);
+	enemykL =  0.5- 0.3 * Math.floor(timeNow/30);
 	for (i = 0;enemyk.length < enemykNum; i++) {
   	var b = new enemyK (50,50,enemykR,enemykL,enemykRTI);
 	enemyk.push(b);
@@ -1082,6 +1031,7 @@ var difficulty = function(){
 var objectLaunch = function(object) {
 	object.launch();
 };
+
 
 
 function timeStamp() {
@@ -1111,11 +1061,13 @@ function update() {
 
 				difficulty();
 				clear();
+				
 
-				hero.launch();
 				boxes.forEach(objectLaunch);
 				boxes2.forEach(objectLaunch)
 				boxes3.forEach(objectLaunch);
+				hero.launch();
+				
 				enemies.forEach(objectLaunch);
 				Projectiles.forEach(objectLaunch);
 				enemyk.forEach(objectLaunch);
