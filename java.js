@@ -532,11 +532,11 @@ this.boom = function (){
 		xonclick = hero.x; //stop moving while shootin
 		yonclick = hero.y;
 		this.lifeLeft -= 1;
-		hero.areload = 65;
+		hero.areload = 70;
 		hero.reload = 95;
 		this.rTimer = this.rTi;
 		this.bx = this.x;
-		this.by = this
+		this.by = this.y;
 		}
 
 
