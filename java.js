@@ -49,58 +49,72 @@ var key1 = false;
 	  // keyboard trackerz
  
   c.canvas.onkeydown = function(evt) {
-  	evt.preventDefault();
+  	
 	if ( evt.keyCode == 65) {
      keyA = true; 
+	 evt.preventDefault();
 	}
 	if ( evt.keyCode == 68) {
      keyD = true; 
+	 evt.preventDefault();
 	}
 	if ( evt.keyCode == 70) {
      keyF = true; 
+	 evt.preventDefault();
 	}
 	if ( evt.keyCode == 81) {
      keyQ = true; 
+	 evt.preventDefault();
 	}
 	if ( evt.keyCode == 87) {
      keyW = true; 
+	 evt.preventDefault();
 	}
 	if ( evt.keyCode == 69) {
      keyE = true; 
 	}
 	if ( evt.keyCode == 82) {
      keyR = true; 
+	 evt.preventDefault();
 	}
 	if ( evt.keyCode == 49) {
      key1 = true; 
+	 evt.preventDefault();
 	}
 };
 
  c.canvas.onkeyup = function(evt) {
- 	evt.preventDefault(); 
  	if ( evt.keyCode == 65) {
 		keyA = false; 
+		evt.preventDefault();
 	}
   	if ( evt.keyCode == 68) {
 		keyD = false; 
+		evt.preventDefault();
 	}
 	if ( evt.keyCode == 70) {
 		keyF = false; 
+		evt.preventDefault();
 	}
 	if ( evt.keyCode == 81) {
 		keyQ = false; 
+		evt.preventDefault();
 	}
 	if ( evt.keyCode == 87) {
 		keyW = false; 
+		evt.preventDefault();
 	}
 	if ( evt.keyCode == 69) {
 		keyE = false; 
+		evt.preventDefault();
 	}
 	if ( evt.keyCode == 82) {
 		keyR = false; 
+		evt.preventDefault();
 	}
 	if ( evt.keyCode == 49) {
 		key1 = false; 
+		evt.preventDefault();
 	} 
 };
 
@@ -532,6 +546,7 @@ this.boom = function (){
 		xonclick = hero.x; //stop moving while shootin
 		yonclick = hero.y;
 		this.lifeLeft -= 1;
+		this.btimer = 20;
 		hero.areload = 70;
 		hero.reload = 95;
 		this.rTimer = this.rTi;
@@ -632,8 +647,8 @@ function enemyK (x, y, r, l, rti){
 			this.keyTypeName = 'A';
 			break;
 			case 2:
-			this.keyType  = function () { return keyD};
-			this.keyTypeName = 'D';
+			this.keyType  = function () { return key1};
+			this.keyTypeName = '1';
 			break;
 			case 3:
 			this.keyType  = function () { return keyQ};
@@ -652,8 +667,8 @@ function enemyK (x, y, r, l, rti){
 			this.keyTypeName = 'R';
 			break;
 			case 7:
-			this.keyType  = function () { return key1};
-			this.keyTypeName = '1';
+			this.keyType  = function () { return keyD};
+			this.keyTypeName = 'D';
 			break;
 			case 0:
 			this.keyType = function () { return keyF};
@@ -753,12 +768,12 @@ this.boom = function (){
 			this.x = null;
 			this.y = null;
 			
-			hero.life += 5;
+			hero.life += 1;
 			this.herokill = true;
 
 		}
 	   if (this.herokill === false && this.life == 0 && hero.life > 0){
-	   	hero.life -= 5;
+	   	hero.life -= 10;
 	   	this.herokill = true;
 	   }
 	this.boom();
@@ -786,7 +801,7 @@ var randomCol = getRndColor(0,100,0,255,155,0);
 	this.randomDest = function () {
 			var z = Math.sqrt (diffX * diffX + diffY * diffY);
 			this.rangle =Math.random()*Math.PI*2;            //random dest around hero
-		    this.radius =  Math.random()* 300 ;
+		    this.radius =  Math.random()* 500 ;
 			this.destX =hero.x + Math.cos(this.rangle)*this.radius;
 			this.destY =hero.y + Math.sin(this.rangle)*this.radius;
 															//angle
@@ -851,7 +866,7 @@ var randomCol = getRndColor(0,100,0,255,155,0);
 				this.y = null;
 				this.vx = 0;
 				this.vy = 0;
-				hero.life -= 3;
+				hero.life -= 1;
 				this.btimer = 30;
 			}
 
@@ -946,16 +961,16 @@ var hero = new Hero(w/2,h/2, 7);
 
 
 var enemies = [];
-var enemiesNum = 5;
-var enemiesLife = 3;
+var enemiesNum = 2;
+var enemiesLife = 2;
 var enemiesSize = 50;
 var enemiesSpeed = 6.2;
-var enemiesRespawn = 250;
+var enemiesRespawn = 200;
 var enResp = enemiesRespawn;
 
 var Projectiles = [];
 var ProjectilesNum = 10;
-var ProjectilesSpeed = 16;
+var ProjectilesSpeed = 20;
 var ProjectilesSize = 1;
 
 var boxes = [];
@@ -977,7 +992,7 @@ var enemyk = [];
 var enemykNum = 2;
 var enemykR = 50;
 var enemykL = 0.5;
-var enemykRTI = 700;
+var enemykRTI = 300;
 
 /////////OBJECT CREATORS
 
@@ -998,7 +1013,8 @@ for (i = 0; i < boxesNum3; i++) {
 
 var difficulty = function(){
 	/////////////////////WORKS WELL YO
-	enemiesLife = 2 + Math.floor(timeNow/30);
+	//enemiesLife = 3 + Math.floor(timeNow/30);
+	enemiesLife = 2;
 	if (enResp > 0) {enResp -= 1;}
 	else if (enResp === 0 && enemies.length < enemiesNum) {  //ENEMY GENERATOR
   		randomEdge();
@@ -1009,8 +1025,8 @@ var difficulty = function(){
 
 
 	/////////////////  PROJECTILES
-	ProjectilesNum = 2+ Math.floor((timeNow)/30);
-
+	//ProjectilesNum = 3 + Math.floor((timeNow)/30);
+	ProjectilesNum = 1;
 	for (i = 0;Projectiles.length < ProjectilesNum; i++) {
   	randomEdge();
 	var b = new projectile (randomEdgeX,randomEdgeY,ProjectilesSize,ProjectilesSpeed);
@@ -1062,10 +1078,10 @@ function update() {
 				difficulty();
 				clear();
 				
-
-				boxes.forEach(objectLaunch);
-				boxes2.forEach(objectLaunch)
 				boxes3.forEach(objectLaunch);
+				boxes2.forEach(objectLaunch);
+				boxes.forEach(objectLaunch);
+								
 				hero.launch();
 				
 				enemies.forEach(objectLaunch);
